@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro CDMX - Path Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
+    <script src="https://unpkg.com/leaflet.polyline.snakeanim@0.1.1/L.Polyline.SnakeAnim.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-priority-queue@0.1.5/priority-queue.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top-row">
+                <div class="header-content">
+                    <img src="Images/Logo_del_Metro_de_la_Ciudad_de_México.svg.png" alt="Metro CDMX Logo" class="header-logo">
+                    <div class="header-text">
+                        <h1>MetroBuddy CDMX</h1>
+                    </div>
+                </div>
+                <nav class="top-nav">
+                    <button id="viewRouteBtn" class="nav-btn hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                        <span data-i18n="viewRoute">Detalle Ruta</span>
+                    </button>
+                    <button id="infoBtn" class="nav-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span data-i18n="info">Información</span>
+                    </button>
+                    <button id="favsBtn" class="nav-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <span data-i18n="favs">Viajes Favoritos</span>
+                    </button>
+                    <button id="themeToggleBtn" class="nav-btn" title="Cambiar tema">
+                        <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        <svg id="sunIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
+                    <button id="langToggleBtn" class="nav-btn" title="Cambiar idioma">
+                        <span id="langText">EN</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-grid">
+            <!-- Left Panel - Search -->
+            <div class="left-panel">
+                <div class="search-box">
+                    <h2 data-i18n="searchTitle"> Buscar Ruta</h2>
+                    
+                    <!-- Start Station -->
+                    <div class="input-wrapper">
+                        <div class="input-header">
+                            <label data-i18n="startStation">Estación de Origen</label>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="start" 
+                            placeholder="Ej: Chilpancingo" 
+                            autocomplete="off"
+                        />
+                        <div id="suggestions-start" class="suggestions"></div>
+                    </div>  
+                    <!-- End Station con botón de intercambio -->
+                    <div class="input-wrapper">
+                        <div class="input-header">
+                            <label data-i18n="endStation">Estación de Destino</label>
+                            <button id="swapBtn" class="swap-btn-minimal" title="Intercambiar origen y destino">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="17 11 12 6 7 11"></polyline>
+                                    <polyline points="17 18 12 13 7 18"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="end" 
+                            placeholder="Ej: Chapultepec" 
+                            autocomplete="off"
+                        />
+                        <div id="suggestions-end" class="suggestions"></div>
+                    </div>
+                    <!-- Search Button -->
+                    <div class="options-wrapper" style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <label class="switch">
+                            <input type="checkbox" id="accessibilityMode">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="accessibility-label" style="font-size: 0.9rem;"> 
+                              <svg id="accessibilityIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Outer circle -->
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <!-- Head -->
+                                    <circle cx="12" cy="7" r="2"></circle>
+                                    <!-- Arms -->
+                                    <line x1="6" y1="11" x2="18" y2="11"></line>
+                                    <!-- Body -->
+                                    <line x1="12" y1="9" x2="12" y2="15"></line>
+                                    <!-- Legs -->
+                                    <line x1="12" y1="15" x2="8" y2="20"></line>
+                                    <line x1="12" y1="15" x2="16" y2="20"></line>
+                                </svg><span data-i18n="accessible">Ruta Accesible (Sin escaleras)</span>
+                        </span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="findPathBtn" class="search-btn" data-i18n="searchBtn">
+                            Buscar Ruta Óptima
+                        </button>
+
+                        <button id="viewRouteBtn2" class="search-btn secondary-btn hidden" data-i18n="viewRoute">
+                            Detalle Ruta
+                        </button>
+                    </div>
+
+                    <!-- Loading -->
+                    <div id="loading" class="loading hidden">
+                        <div class="loader"></div>
+                        <p data-i18n="loading">Calculando ruta óptima...</p>
+                    </div>
+
+                    <!-- Result -->
+                    <div id="result" class="result"></div>
+                </div>
+
+                <!-- Route Details -->
+                <div id="route-details" class="route-details"></div>
+            </div>
+
+            <!-- Right Panel - Map -->
+            <div class="right-panel">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden" data-i18n="toastSuccess">
+         Ruta encontrada exitosamente
+    </div>
+
+    <!-- Modals -->
+    <div id="infoModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="title-with-info-icon">
+                <span class="close-modal" data-modal="infoModal">&times;</span>
+                <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <h2 data-i18n="infoTitle">Sobre MetroBuddy CDMX</h2>
+            </div>
+
+            <div class="modal-body">
+                <p data-i18n="infoWelcome">Bienvenido a <strong>MetroBuddy CDMX</strong>, tu asistente inteligente para navegar el Sistema de Transporte Colectivo Metro.</p>
+                
+                <h3 data-i18n="infoHowTitle">¿Cómo funciona?</h3>
+                <p data-i18n="infoHowDesc">Nuestra aplicación utiliza el algoritmo <strong>A* (A-Star)</strong>, uno de los algoritmos de búsqueda de caminos más eficientes en ciencias de la computación. Este algoritmo no solo considera la distancia entre estaciones, sino que también evalúa:</p>
+                <ul>
+                    <li data-i18n="infoFactor1">La velocidad promedio de cada línea.</li>
+                    <li data-i18n="infoFactor2">El tiempo estimado de transbordo.</li>
+                    <li data-i18n="infoFactor3">La distancia geográfica real (Haversine).</li>
+                </ul>
+                
+                <h3 data-i18n="infoFeaturesTitle">Características</h3>
+                <ul>
+                    <li data-i18n="infoFeature1">• <strong>Mapa Interactivo:</strong> Visualiza tu ruta en el mapa de la CDMX.</li>
+                    <li data-i18n="infoFeature2">• <strong>Rutas Óptimas:</strong> Encuentra el camino más rápido.</li>
+                    <li data-i18n="infoFeature3">• <strong>Favoritos:</strong> Guarda tus rutas frecuentes para acceso rápido.</li>
+                </ul>
+                
+                <p class="credits" data-i18n="credits">-Devs-</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="favsModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" data-modal="favsModal">&times;</span>
+            
+            <h2 class="title-with-star-icon">
+            <svg id="starIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"></polygon>
+            </svg>
+            <span data-i18n="favsTitle">Mis Viajes Favoritos</span>
+            </h2>
+
+            <div class="modal-body">
+                <div id="favoritesList" class="favorites-list">
+                    <!-- Items will be injected here via JS -->
+                    <p class="empty-msg" data-i18n="emptyFavs">No tienes viajes guardados aún.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route Detail Modal -->
+    <div id="routeModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" data-modal="routeModal">&times;</span>
+            
+            <h2 class="title-with-icon">
+            <svg class="icon-location" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 1 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span data-i18n="routeDetailTitle">Detalle de la Ruta</span>
+            </h2>
+
+            <div class="modal-body">
+                <div id="routeStepsList" class="route-steps-list">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
