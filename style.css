@@ -500,14 +500,14 @@ body {
     color: #FE5000;
 }
 
-/* Route Details */
+/* Route Details 
 .route-details {
-    margin-top: 10px; /* Reduced from 20px */
+    margin-top: 10px; Reduced from 20px 
     flex: 1;
-    overflow: hidden; /* Prevent overflow */
+    overflow: hidden;  Prevent overflow 
     display: flex;
     flex-direction: column;
-}
+}*/
 
 .route-summary {
     background-color: #F4EDE4;
@@ -611,6 +611,7 @@ body {
 }
 
 #map {
+    position: relative;
     margin-bottom: 0;
     width: 100%;
     height: 100%;
@@ -1157,10 +1158,65 @@ body.dark-mode .suggestion-item.selected {
   width: 20px;
   height: 20px;
   position: relative;
+  color: #FE5000;
   top: -10px;
 }
 .title-with-star-icon {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.route-details {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  z-index: 1000;
+  
+  /* estado inicial para animación */
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInLegend 0.6s ease-in forwards;
+}
+
+/* Animación */
+@keyframes fadeInLegend {
+  from {
+    opacity: 0;
+    transform: translateY(-20px); /* empieza un poco más arriba */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);     /* vuelve a su posición normal */
+  }
+}
+
+
+.route-details h4 {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.route-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.route-details li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border-radius: 3px;
 }
