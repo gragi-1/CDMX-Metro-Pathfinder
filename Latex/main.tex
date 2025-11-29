@@ -1,0 +1,413 @@
+\documentclass[11pt, a4paper]{article}
+
+% PAQUETES ESENCIALES
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-nodecimalperiod]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{listings} % Para incluir código
+\usepackage{geometry} % Para márgenes
+\usepackage{fancyhdr} % Para encabezados/pies
+\usepackage{xcolor}   % Para colores
+\usepackage{titlesec} % Para personalizar títulos
+
+% CONFIGURACIÓN DE GEOMETRÍA (Márgenes)
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=25mm,
+ top=25mm,
+}
+
+% CONFIGURACIÓN DE COLORES
+\definecolor{UMOrange}{HTML}{FE5000}
+\definecolor{Charcoal}{HTML}{1E1E1E}
+\definecolor{Cream}{HTML}{F4EDE4}
+
+% CONFIGURACIÓN DE LISTINGS (Estilo para el código)
+\lstset{
+  language=JavaScript,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\color[rgb]{0.0,0.5,0.0},
+  keywordstyle=\color{blue},
+  stringstyle=\color[rgb]{0.627,0.126,0.941},
+  showspaces=false,
+  showtabs=false,
+  tabsize=2,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\tiny\color{gray},
+  rulecolor=\color{gray!50},
+  frame=single,
+  frameround=tttt,
+  backgroundcolor=\color{gray!10},
+  captionpos=b,
+  framexleftmargin=5mm,
+  identifierstyle=\color{Charcoal}
+}
+
+% CONFIGURACIÓN DE TÍTULOS DE SECCIÓN
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{UMOrange}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{Charcoal}}{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{15pt}{10pt}
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+
+% CONFIGURACIÓN DE ENCABEZADO Y PIE
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% INICIO DEL DOCUMENTO
+\begin{document}
+
+% =================================================================
+% PORTADA
+% =================================================================
+\thispagestyle{empty}
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\Huge \bfseries MEMORIA DE PRÁCTICA \par}
+    \vspace{0.5cm}
+    {\huge \bfseries Inteligencia Artificial (IA) \par}
+    \vspace{0.5cm}
+{\large (Curso Académico 2025-2026) \par}
+    
+    \vspace{1cm}
+    
+    \rule{0.8\textwidth}{2pt}
+    \vspace{0.4cm}
+    
+    {\Huge \bfseries \color{UMOrange} MetroBuddy CDMX \par}
+    {\Large \bfseries Tu WebApp de Escritorio \par}
+    {\Large \bfseries de confianza para viajar por CDMX\par}
+    \vspace{0.4cm}
+    {\Large \bfseries ¡Visítalo ya en \href{metrobuddy.kevian.xyz}{\color{UMOrange}MetroBuddy CDMX}!
+    \par}
+    \vspace{0.4cm}
+    \rule{0.8\textwidth}{2pt}
+    
+    \vspace{1cm}
+    
+    {\Large \bfseries Grupo de Trabajo: 2 \par}
+    \vspace{0.75cm}
+    
+    {\large \bfseries Coordinador: \par}
+    Gragera Serradilla, Alejandro (22M041) 3º GMI
+    \vspace{0.5cm}
+    
+    {\large \bfseries Miembros del Equipo: \par}
+    Liu, Yang (23M072) \\
+    López Nécula, Antonio Javier (23M041) \\
+    Ortega Villanueva, David (23M043) \\
+    Yu, Chuanhui (23M064)
+
+    \vspace{1cm}
+
+{\large \bfseries Universidad Politécnica de Madrid \par}
+{\large Escuela Técnica Superior de Ingenieros Informáticos \par}
+{\large (Grado en Matemáticas e Informática) \par}
+    
+    \vfill
+    \vspace{0.5cm} 
+    \includegraphics[width=0.2\textwidth]{images/logo_upm.png} 
+    
+    \vfill
+    
+\end{titlepage}
+
+\thispagestyle{empty} % Sin número de página
+
+\clearpage % Nueva página
+\tableofcontents
+% =================================================================
+% RESUMEN (Abstract)
+% =================================================================
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\begin{abstract}
+    
+La aplicación ofrece una \textbf{calculadora de rutas rápida y eficiente}, acompañada de un \textbf{mapa} que muestra de forma clara la parte de la red de metro que abarca el sistema. Incorpora \textbf{modo claro modo oscuro para mejorar la comodidad visual} en diferentes entornos, así como un \textbf{sistema de rutas favoritas que permite guardar y acceder fácilmente} a los trayectos más utilizados. Además, incluye la opción de utilizar la interfaz en \textbf{inglés o en español}, ampliando su accesibilidad a distintos tipos de usuarios, y cuenta con una \textbf{función específica para calcular rutas más accesibles, adaptadas a personas con movilidad reducida o necesidades especiales.} La aplicación también dispone de un \textbf{apartado de información breve} que explica su funcionamiento y características principales, proporcionando una \textbf{experiencia completa, intuitiva y centrada en las necesidades del usuario}.
+\end{abstract}
+
+\vspace{1cm}
+
+\clearpage
+\section{Introducción}
+
+\subsection{Objetivo de la Práctica}
+El objetivo principal es \textbf{aplicar los conocimientos de \textit{Inteligencia Artificial}} en el dominio de la búsqueda de caminos, mediante la construcción de un sistema funcional capaz de determinar la ruta más eficiente a través de una red compleja de transporte. Específicamente, se implementa \textbf{el algoritmo \textit{A*} para modelar y resolver el problema de la ruta óptima} en la red del Metro de la Ciudad de México, considerando los siguientes segmentos:
+
+\begin{itemize}
+    \item Línea 1: Observatorio a Balderas
+    \item Línea 3: Universidad a Juárez
+    \item Línea 7: Barranca del Muerto a Polanco
+    \item Línea 9: Tacubaya a Lázaro Cárdenas
+    \item Línea 12: Mixcoac a Eje Central
+\end{itemize}
+
+\subsection{Alcance y Limitaciones}
+El proyecto se centra en la \textbf{optimización del trayecto} considerando las siguientes circunstancias de influencia:
+
+\begin{itemize}
+    \item \textbf{Distancia/Tiempo:} Constituye el costo principal del trayecto.
+    \item \textbf{Transbordos:} Se aplica una penalización temporal por cada transbordo.
+    \item \textbf{Accesibilidad:} Se implementa un modo de búsqueda que prioriza rutas con \textbf{estaciones accesibles}, ajustando los pesos de las aristas o excluyendo nodos no accesibles (elevadores, rampas, etc.).
+\end{itemize}
+
+
+\subsection{Descripción de la Aplicación}
+La aplicación web de escritorio permite calcular rutas de metro de manera rápida y eficiente, mostrando un mapa interactivo con la parte de la red que se abarca. Incorpora modo claro y modo oscuro para mejorar la comodidad visual, así como un sistema de rutas favoritas que facilita guardar y acceder rápidamente a los trayectos más utilizados. Además, ofrece la opción de utilizar la interfaz en inglés o en español, ampliando su accesibilidad a distintos tipos de usuarios, y cuenta con una función específica para calcular rutas más accesibles, adaptadas a personas con movilidad reducida o necesidades especiales.  
+
+\textbf{El núcleo de procesamiento y cálculo de rutas está desarrollado en Python}, aprovechando su eficiencia para la implementación del algoritmo \textit{A*} y la gestión de datos de la red de metro. La interfaz se integra mediante tecnologías web (\textit{HTML5, CSS3 y JavaScript}), permitiendo que la aplicación se ejecute de manera portátil y fluida en cualquier escritorio compatible con Python y un navegador moderno.
+
+\newpage
+\section{Marco Teórico: Algoritmo A*}
+El algoritmo $\mathbf{A^{*}}$ es un algoritmo de búsqueda de grafos que encuentra el camino con el costo más bajo desde un nodo de inicio hasta un nodo objetivo. Es una extensión de Dijkstra que utiliza una función heurística para guiar su búsqueda.
+
+\subsection{Función de Evaluación $f(n)$}
+La fortaleza de $A^{*}$ radica en su función de evaluación, $f(n)$, que estima el costo total del camino a través del nodo $n$.
+$$f(n) = g(n) + h(n)$$
+Donde:
+\begin{itemize}
+    \item \textit{$g(n)$ (Costo Real):} Es el costo acumulado conocido desde el nodo inicial hasta el nodo actual $n$. En el modelo del Metro, esto representa la suma de los costos de los tramos recorridos (distancia + tiempo + penalización por transbordo).
+    \item \textit{$h(n)$ (Costo Heurístico):} Es el costo estimado desde el nodo actual $n$ hasta el nodo objetivo. Esta es la función heurística. Para que $A^{*}$ garantice la optimalidad, $h(n)$ debe ser \textit{admisible} (nunca sobreestimar el costo real hasta el objetivo) y preferiblemente \textit{consistente}.
+\end{itemize}
+
+\subsection{Modelado de la Heurística para el Metro}
+Dada la naturaleza geoespacial del problema, se opta por una heurística basada en la \textit{distancia euclidiana (o de línea recta)} entre la estación actual $n$ y la estación objetivo.
+
+$$\mathbf{h(n) = \text{Distancia Euclídea}(n, \text{Objetivo}) \times k_{\text{avg}}}$$
+
+Donde $k_{\text{avg}}$ es un factor de conversión que relaciona la distancia física con el costo ponderado (tiempo/coste). La distancia euclídea entre las coordenadas GPS de dos estaciones es un valor que nunca sobreestima el costo real del viaje restante, ya que la ruta real del metro siempre será igual o mayor, garantizando así la \textit{admisibilidad} y la optimalidad del algoritmo.
+
+\newpage
+\section{Diseño e Implementación de la Solución}
+
+\subsection{Modelo de Grafo (Red del Metro)}
+La red del Metro se representa como un \textit{Grafo Dirigido Ponderado} $G=(V, E)$, donde:
+\begin{itemize}
+    \item \textbf{Vértices ($V$):} Estaciones con atributos (ID, coordenadas, línea, accesibilidad).
+    \item \textbf{Aristas ($E$):} Tramos entre estaciones y conexiones de transbordo.
+    \item \textbf{Costo ($C$):} Función que suma tiempo de viaje y penalizaciones.
+\end{itemize}
+
+$$C(u, v) = \text{Tiempo}(u, v) + \text{Penalización}_{\text{transbordo}}$$
+
+Se añade una penalización fija (ej. 3 minutos) al cambiar de línea para minimizar transbordos innecesarios.
+
+\subsection{Arquitectura Técnica}
+La aplicación \textit{MetroBuddy} es una web estática basada en tres componentes principales:
+\begin{itemize}
+    \item \textbf{Estructura (\texttt{index.html}):} Define la interfaz de usuario.
+    \item \textbf{Estilo (\texttt{style.css}):} Controla la apariencia y el Modo Oscuro.
+    \item \textbf{Lógica (\texttt{script.js}):} Implementa el algoritmo $A^{*}$, gestiona el grafo y la interactividad.
+\end{itemize}
+Para la visualización cartográfica se utiliza la librería \textit{Leaflet}.
+
+\subsection{Funcionalidades de la Aplicación}
+La interfaz se ha diseñado priorizando la usabilidad y la claridad en la presentación de resultados. \textbf{\color{UMOrange} Se recomienda encarecidamente la prueba de \href{metrobuddy.kevian.xyz}{\color{UMOrange}MetroBuddy CDMX}} para la visualización de las siguientes secciones.
+\vspace{0.3cm}
+
+\subsubsection{Búsqueda de Ruta Óptima}
+El usuario selecciona origen y destino en un panel de control. El algoritmo $A^{*}$ calcula la ruta y la muestra en el mapa interactivo (Figura \ref{fig:ejemplo_uso_normal}).
+\begin{itemize}
+    \item \textbf{Visualización:} Se dibuja una polilínea sobre el mapa y se animan los marcadores de las estaciones.
+    \item \textbf{Resumen:} Se muestra el tiempo total, distancia y número de transbordos (Figura \ref{fig:ejemplo_accesibilidad}).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/figura1.png}
+    \caption{Visualización de la página web.}
+    \label{fig:ejemplo_uso_normal}
+\end{figure}
+    
+    \textbf{Visualización de Resultados:} Una vez ejecutada la búsqueda, el algoritmo $A^{*}$ retorna la secuencia óptima de nodos. Esta ruta es visualizada inmediatamente en el mapa mediante una \textit{polilínea destacada} que indica el trayecto completo. Los resultados clave del cálculo (duración total, número de transbordos y distancia total) se presentan de forma destacada  (Figura 1).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/figura2.png}
+    \caption{Ejemplo de uso estándar: Ruta óptima calculada por A* entre las estaciones seleccionadas.}
+    \label{fig:ejemplo_accesibilidad}
+\end{figure}
+
+
+\subsubsection{Modo Accesible}
+Al activar la opción \textbf{Ruta Accesible}, el algoritmo modifica los pesos del grafo. Se penalizan fuertemente las estaciones no accesibles (sin elevadores/rampas), forzando al buscador a encontrar caminos alternativos aptos para personas con movilidad reducida (Figura \ref{fig:opciones_extra_acc}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/figura3.png}
+    \caption{Ruta alternativa en modo accesible.}
+    \label{fig:opciones_extra_acc}
+\end{figure}
+
+\subsubsection{Detalle de Ruta y Favoritos}
+\begin{itemize}
+    \item \textbf{Desglose paso a paso:} Se ofrece una lista detallada de cada tramo y transbordo, indicando tiempos parciales (Figura \ref{fig:ruta_detallada}).
+    \item \textbf{Favoritos:} Permite guardar rutas frecuentes para un acceso rápido.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/figura4_1.png}
+    \hfill
+    \includegraphics[width=0.5\textwidth]{images/figura4_2.png}
+    \caption{Vista detallada de la ruta y gestión de favoritos.}
+    \label{fig:ruta_detallada}
+\end{figure}
+
+\subsubsection{Personalización}
+Se incluyen herramientas para mejorar la experiencia de usuario:
+\begin{itemize}
+    \item \textbf{Modo Oscuro:} Ajusta los colores para entornos de baja luz.
+    \item \textbf{Idioma:} Soporte para español e inglés.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/figura5.png} 
+    \caption{Panel de opciones adicionales.}
+    \label{fig:opciones_extra}
+\end{figure}
+
+\newpage
+\section{Código Fuente e Instrucciones de Ejecución}
+
+\subsection{Enlace al Código Fuente}
+El código fuente de la práctica es accesible para su revisión y calificación a través del siguiente enlace:
+
+\vspace{0.5cm}
+\begin{center}
+\href{https://github.com/gragi-1/CDMX-Metro-Pathfinder/tree/main}{
+\textbf{\Large Ver Repositorio en GitHub}
+}
+\end{center}
+\vspace{0.5cm}
+
+subsection{Instrucciones de Ejecución y Manual de Uso}
+La aplicación ha sido desarrollada como una aplicación web sin dependencia de un servidor backend, lo que facilita su ejecución y acceso al estar desplegada en un dominio público.
+
+\subsubsection{Acceso a la Aplicación}
+Para utilizar \textbf{\textit{\color{UMOrange}MetroBuddy}}, simplemente abra la siguiente URL en cualquier navegador web moderno (Chrome, Firefox, Edge, Safari):
+\begin{center}
+    \texttt{\href{https://metrobuddy.kevian.xyz/}{\color{UMOrange}\textbf{https://metrobuddy.kevian.xyz/}}}
+\end{center}
+\textbf{\color{UMOrange} Se recomienda encarecidamente la prueba de \href{metrobuddy.kevian.xyz}{\color{UMOrange}MetroBuddy CDMX}} para la visualización de las siguientes secciones.
+
+\subsubsection{Guía de Funcionalidades}
+A continuación se detalla el flujo de uso completo de la herramienta:
+
+\begin{enumerate}
+    \item \textbf{Búsqueda de Ruta:}
+    \begin{itemize}
+        \item Introduzca la estación de \textbf{origen y destino} (autocompletado disponible).
+        \item Use el botón de flechas para \textbf{invertir origen y destino}.
+        \item Active \textbf{Ruta Accesible} para priorizar estaciones con facilidades de acceso.
+        \item Presione \textbf{Buscar Ruta Óptima}.
+    \end{itemize}
+
+    \item \textbf{Visualización de Resultados:}
+    \begin{itemize}
+        \item \textbf{Mapa Interactivo:} La ruta se muestra sobre el mapa y permite zoom y desplazamiento.
+        \item \textbf{Resumen del Viaje:} Se muestra tiempo estimado, distancia y número de transbordos.
+    \end{itemize}
+
+    \item \textbf{Detalles y Favoritos:}
+    \begin{itemize}
+        \item \textbf{Detalle de Ruta:} Instrucciones paso a paso y tiempos por tramo.
+        \item \textbf{Guardar Favorito:} Añada rutas a sus favoritos para acceso rápido.
+        \item \textbf{Gestión de Favoritos:} Cargue o elimine rutas guardadas desde la barra superior.
+    \end{itemize}
+
+    \item \textbf{Configuración y Ayuda:}
+    \begin{itemize}
+        \item \textbf{Modo Oscuro/Claro:} Alterne el tema visual.
+        \item \textbf{Idioma:} Cambie entre Español e Inglés.
+        \item \textbf{Información:} Acceda a explicación del funcionamiento del algoritmo A*.
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+\section{Conclusiones}
+El desarrollo de la aplicación \textbf{MetroBuddy ha permitido aplicar de manera práctica los fundamentos del algoritmo de búsqueda $A^{*}$, estudiados en la asignatura de Inteligencia Artificial}, a un problema real: la planificación de rutas en la red de metro. Este proyecto ha ofrecido una experiencia valiosa tanto en el ámbito técnico como en el de trabajo colaborativo. Asimismo, ha proporcionado la oportunidad de aprender, aplicar y perfeccionar nuestros conocimientos en \textbf{Python}, \textbf{HTML}, \textbf{CSS} y \textbf{JavaScript}, contribuyendo a la preparación para el desarrollo de soluciones en un entorno profesional. Nos sentimos orgullosos del producto y muy motivados para más implementaciones similares. 
+
+
+\subsection{Conclusiones Técnicas}
+
+\subsubsection{Dificultades Técnicas Encontradas}
+Las dificultades se concentraron principalmente en el \textbf{modelado del grafo} y la \textbf{función de costo}:
+\begin{itemize}
+    \item \textbf{Definición de Costos Híbridos:} El mayor desafío fue integrar la \textbf{distancia euclídea} (base de la heurística y parte de $g(n)$) con las penalizaciones discretas. Establecer un peso adecuado para el \textbf{transbordo} y para la condición de \textbf{accesibilidad} fue un proceso iterativo para asegurar que la ruta óptima resultante fuera coherente con la realidad del usuario.
+    \item \textbf{Desarrollo Front-End:} Durante la implementación de la interfaz de \textit{MetroBuddy}, nos enfrentamos a varios retos relacionados con el \textbf{diseño y la usabilidad}. Entre las principales dificultades se encuentran la integración de un \textbf{mapa interactivo} que permitiera mostrar rutas y estaciones de manera clara, la adaptación de la interfaz a \textbf{modo claro y oscuro}, y la creación de componentes dinámicos para la gestión de \textbf{rutas favoritas}. Además, asegurar la compatibilidad entre distintos navegadores y mantener un rendimiento fluido mientras se actualizaban los datos del mapa supuso un desafío adicional que requirió ajustes constantes.
+
+\end{itemize}
+
+\subsubsection{Aspectos Técnicos Positivos}
+\begin{itemize}
+    \item \textbf{Validación del Algoritmo:} La principal lección técnica fue confirmar la \textbf{efectividad y eficiencia de A*}. El algoritmo resolvió el camino óptimo en la red compleja del metro de forma casi instantánea.
+    \item \textbf{Integración Front-End y Despliegue:} Se logró una integración completa del algoritmo con una interfaz gráfica, demostrando la capacidad de crear una solución completa y funcional usando únicamente tecnologías del lado del cliente, culminando con un \textbf{despliegue exitoso} de la aplicación (\texttt{https://metrobuddy.kevian.xyz/}).
+\end{itemize}
+
+\subsection{Conclusiones de Gestión del Grupo}
+
+\subsubsection{Gestión, Ambiente y Comunicación}
+El grupo mantuvo un \textbf{ambiente positivo y altamente colaborativo} durante toda la práctica.
+
+\begin{itemize}
+    \item \textbf{Qué se ha hecho bien como grupo:} La \textbf{comunicación} fue excelente. La \textbf{repartición de tareas} fue clara (Modelado/Algoritmo, Adquisición de Datos, Desarrollo Web), y se mantuvo flexible para ayudar en áreas donde surgían bloqueos técnicos.
+    \item \textbf{Habilidades Interpersonales:} A lo largo del desarrollo del proyecto surgieron dificultades y desacuerdos propios del trabajo en equipo, como diferencias en la organización de tareas o en la interpretación de ciertos requerimientos. Sin embargo, estas situaciones nos enseñaron a \textbf{comprender las circunstancias de cada miembro}, a negociar soluciones y a colaborar de manera efectiva, fortaleciendo nuestra capacidad para trabajar en equipo y mantener la progresión constante del proyecto. Finalmente pudimos sacar una aplicación web bastante chulo. 
+
+\end{itemize}
+
+\subsubsection{Puntos de Mejora}
+\begin{itemize}
+    \item \textbf{Adquisición de Lenguajes Clave:} Se constató que la falta de fluidez previa en lenguajes como Python y JavaScript, que han sido herramientas fundamentales en este tipo de prácticas, elevó la curva de aprendizaje y aumentó el tiempo total dedicado al proyecto. De cara al futuro, se priorizará la dedicación de tiempo para conocer y dominar estos lenguajes por simple curiosidad y aplicación práctica, lo que sin duda reducirá los tiempos de desarrollo en tareas similares.
+    \item \textbf{Ampliación de la cobertura de la red:} Actualmente la aplicación cubre solo algunas líneas de la red del Metro de la Ciudad de México. Sería conveniente incluir todas las líneas y estaciones para ofrecer rutas completas.
+    
+    \item \textbf{Optimización del rendimiento:} En rutas con muchos tramos o transbordos, el tiempo de cálculo podría mejorarse mediante algoritmos más eficientes o mediante optimizaciones en la estructura de datos del grafo.
+    
+    \item \textbf{Mejoras en la accesibilidad:} Aunque se cuenta con un modo de rutas accesibles, se podría incorporar información adicional sobre accesibilidad en cada estación (como disponibilidad de elevadores, rampas o señalización táctil) y permitir filtros más precisos.
+    
+    \item \textbf{Interfaz de usuario:} Mejorar la visualización de las rutas en el mapa, incluyendo animaciones de transición entre estaciones o rutas alternativas, y ofrecer un diseño más intuitivo para usuarios novatos.
+    
+    \item \textbf{Funcionalidad de favoritos:} Ampliar la gestión de rutas favoritas, permitiendo agrupar, editar o compartir trayectos guardados.
+    
+    \item \textbf{Soporte multiplataforma:} Evaluar la posibilidad de una versión móvil o una aplicación híbrida que mantenga todas las funcionalidades de la versión de escritorio.
+    
+    \item \textbf{Internacionalización:} Actualmente solo se permite cambiar entre inglés y español; se podría ampliar a otros idiomas y mejorar la localización de contenidos.
+
+    \item \textbf{Mejor diseño UX/UI:} Simplificar e intuitivar la interfaz de usuario, incorporando animaciones y transiciones que faciliten la comprensión de las rutas y mejoren la experiencia general.
+
+    \item \textbf{Escalabilidad y arquitectura:} Mejorar la arquitectura de la aplicación para facilitar su mantenimiento y evolución futura, permitiendo una integración más profesional en entornos industriales y adaptándose a incrementos en la complejidad o en la cobertura de la red de metro.
+    \item \textbf{Mejoras en el Backend:} Implementar un backend más robusto que permita la creación de una \textbf{base de datos} para almacenar en caché los datos de los usuarios y sus rutas favoritas, así como incorporar un sistema de \textbf{inicio de sesión y registro}, garantizando mayor personalización, seguridad y eficiencia en el manejo de la información.
+
+
+\end{itemize}
+
+\subsection{Observación Final}
+
+En resumen, el desarrollo de \textbf{MetroBuddy ha permitido aplicar de manera práctica los conocimientos adquiridos en la asignatura de Inteligencia Artificial}, generando una aplicación funcional que calcula rutas óptimas en la red de metro, incluye rutas favoritas, modos visuales, soporte en inglés/español y opciones de accesibilidad. Durante el proyecto se adquirieron habilidades técnicas y de trabajo en equipo, enfrentando y superando dificultades propias del desarrollo Front-End y de la coordinación grupal.
+
+A pesar de los logros alcanzados, se identifican oportunidades de mejora en cuanto a UX/UI, escalabilidad, cobertura de la red, optimización de rendimiento y funcionalidades adicionales. Sin embargo, debido a \textbf{limitaciones de tiempo}, no ha sido posible implementar todas estas mejoras. Este proyecto sienta las bases para futuras ampl
+
+
+
+\end{document}
