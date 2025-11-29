@@ -4,7 +4,7 @@
 
 🔗 **Live Demo:** [https://metrobuddy.kevian.xyz/](https://metrobuddy.kevian.xyz/)
 
-## 🚀 Features
+## Features
 
 -   **Optimal Pathfinding:** Uses the A* algorithm to minimize travel time and transfers.
 -   **Interactive Map:** Visualizes the route on a map using Leaflet.js.
@@ -14,13 +14,14 @@
 -   **Dark Mode:** Toggle between light and dark themes for better visibility.
 -   **Bilingual Support:** Available in Spanish (ES) and English (EN).
 
-## 🛠️ Technologies Used
+## Technologies Used
 
+-   **Algorithm:** **A* (A-Star)** Search Algorithm (Core logic for optimal pathfinding)
+-   **Prototyping:** **Python** (Used for initial algorithm implementation and validation)
 -   **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
 -   **Mapping Library:** [Leaflet.js](https://leafletjs.com/)
--   **Algorithm:** A* (A-Star) Search Algorithm
 
-## 📦 Installation & Usage
+## Installation & Usage
 
 Since this is a static web application, no backend server is required.
 
